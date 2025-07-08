@@ -64,5 +64,21 @@ def edit_diet(diet_id):
   db.session.commit()
   return jsonify({"message": f"Data has been updated with id: {diet_id}"}) 
 
+@app.route('/diet/<int:diet_id>', methods=['GET'])
+def get_diet(diet_id):
+  diet = Diet.query.get_or_404(diet_id, f"Not diet foud with id: {diet_id}")
+
+  print(diet)
+  return {
+    "diet": {
+        "id": diet.id,
+        "name": diet.name,
+        "description": diet.description,
+        "within_diet": diet.within_diet,
+        "date_time": diet.date_time.isoformat(),
+    }
+  }
+
+
 if __name__ == '__main__':
  app.run(debug=True)
