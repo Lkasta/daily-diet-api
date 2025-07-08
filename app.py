@@ -40,5 +40,29 @@ def register_diet():
   
   return jsonify({"message": "Invalid credentials"}), 400
 
+@app.route('/diet/<int:diet_id>', methods=['PATCH'])
+def edit_diet(diet_id):
+  data = request.get_json() or {}
+
+  if not data:
+    return jsonify({"message": "Empty data!"}), 400
+
+  diet = Diet.query.get_or_404(diet_id)
+
+  if "name" in data:
+    diet.name = data["name"]
+  
+  if "description" in data:
+    diet.description = data["description"]
+  
+  if "within_diet" in data:
+    diet.within_diet = data["within_diet"]
+
+  if "date_time" in data:
+    diet.date_time = data["date_time"]
+
+  db.session.commit()
+  return jsonify({"message": f"Data has been updated with id: {diet_id}"}) 
+
 if __name__ == '__main__':
  app.run(debug=True)
