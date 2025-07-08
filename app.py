@@ -83,6 +83,9 @@ def get_diet(diet_id):
 def get_all_diets():
   diets = Diet.query.all()
 
+  if not diets:
+    return jsonify({"message": "Empty data!"}), 400
+
   diet_list = [
     {
       "id": diet.id,
