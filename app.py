@@ -102,5 +102,13 @@ def get_all_diets():
     "diets": diet_list
   }
 
+@app.route('/diet/<int:diet_id>', methods=['DELETE'])
+def drop_diet(diet_id):
+  diet = Diet.query.get_or_404(diet_id, f"Not diet foud with id: {diet_id}")
+
+  db.session.delete(diet)
+  db.session.commit()
+  return jsonify({"message": f"Diet has been deleted with id: {diet_id}!"})
+
 if __name__ == '__main__':
  app.run(debug=True)
