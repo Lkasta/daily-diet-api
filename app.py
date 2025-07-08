@@ -79,6 +79,25 @@ def get_diet(diet_id):
     }
   }
 
+@app.route('/diet/', methods=['GET'])
+def get_all_diets():
+  diets = Diet.query.all()
+
+  diet_list = [
+    {
+      "id": diet.id,
+      "name": diet.name,
+      "description": diet.description,
+      "within_diet": diet.within_diet,
+      "date_time": diet.date_time.isoformat(),
+    }
+    for diet in diets
+  ]
+
+  return {
+    "count": len(diet_list),
+    "diets": diet_list
+  }
 
 if __name__ == '__main__':
  app.run(debug=True)
